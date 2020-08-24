@@ -1,5 +1,5 @@
 """
-ASGI config for colecciones_biologia_api project.
+ASGI config for coleccion_biologia project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'colecciones_biologia_api.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'coleccion_biologia.settings')
 
 application = get_asgi_application()
