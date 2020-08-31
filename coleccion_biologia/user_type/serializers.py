@@ -11,3 +11,10 @@ class UserTypeSerializer(serializers.ModelSerializer):
             'id',
             'description'
         )
+
+'''
+{
+    'id': asdf-asdf-asdf,
+    'description': "Administrador"
+}
+'''
