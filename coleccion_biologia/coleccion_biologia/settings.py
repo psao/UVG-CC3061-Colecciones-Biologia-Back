@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'permissions.apps.PermissionsConfig',
     'user_type.apps.UserTypeConfig',
     'users.apps.UsersConfig',
+    'taxonomic_level.apps.TaxonomicLevelConfig'
 
 ]
 
