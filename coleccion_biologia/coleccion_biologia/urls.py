@@ -19,10 +19,12 @@ from rest_framework.routers import DefaultRouter
 #from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
 from user_type.views import UserTypeViewSet
+from users.views import UserViewSet
 
 router = DefaultRouter()
 
-router.register(r'user-types', UserTypeViewSet)#localhost:8080//api/user-types
+router.register(r'user-types', UserTypeViewSet) #localhost:8080//api/user-types
+router.register(r'users', UserViewSet) #localhost:8080//api/user-types
 
 urlpatterns = [
     path('admin/', admin.site.urls),
