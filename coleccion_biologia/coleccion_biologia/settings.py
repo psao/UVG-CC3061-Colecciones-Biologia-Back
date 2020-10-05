@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'country.apps.CountryConfig',
     'departamento.apps.DepartamentoConfig',
     'municipio.apps.MunicipioConfig',
-    'life_stage.apps.LifeStageConfig'
+    'life_stage.apps.LifeStageConfig',
+    'registration_base.apps.RegistrationBaseConfig'
 
 ]
 
