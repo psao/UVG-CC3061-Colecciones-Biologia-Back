@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'user_type.apps.UserTypeConfig',
     'users.apps.UsersConfig',
     'taxonomic_level.apps.TaxonomicLevelConfig',
-    'organism_conservation.apps.OrganismConservationConfig'
+    'organism_conservation.apps.OrganismConservationConfig',
+    'country.apps.CountryConfig'
 
 ]
 
