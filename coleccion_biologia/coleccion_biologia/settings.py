@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'organism_conservation.apps.OrganismConservationConfig',
     'country.apps.CountryConfig',
     'departamento.apps.DepartamentoConfig',
-    'municipio.apps.MunicipioConfig'
+    'municipio.apps.MunicipioConfig',
+    'life_stage.apps.LifeStageConfig'
 
 ]
 
