@@ -20,11 +20,15 @@ from rest_framework.routers import DefaultRouter
 
 from user_type.views import UserTypeViewSet
 from users.views import UserViewSet
+from taxonomic_level.views import TaxonomicLevelViewSet
+from organism_conservation.views import OrganismConservationViewSet
 
 router = DefaultRouter()
 
 router.register(r'user-types', UserTypeViewSet) #localhost:8080//api/user-types
-router.register(r'users', UserViewSet) #localhost:8080//api/user-types
+router.register(r'users', UserViewSet) #localhost:8080//api/users
+router.register(r'taxonomic-levels', TaxonomicLevelViewSet) #localhost:8080//api/taxonomit-levels
+router.register(r'organism-conservation', OrganismConservationViewSet) #localhost:8080//api/
 
 urlpatterns = [
     path('admin/', admin.site.urls),
