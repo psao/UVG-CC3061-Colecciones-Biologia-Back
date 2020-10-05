@@ -23,6 +23,7 @@ from users.views import UserViewSet
 from taxonomic_level.views import TaxonomicLevelViewSet
 from organism_conservation.views import OrganismConservationViewSet
 from departamento.views import DepartamentoViewSet
+from municipio.views import MunicipioViewSet
 
 router = DefaultRouter()
 
@@ -31,6 +32,7 @@ router.register(r'users', UserViewSet) #localhost:8080//api/users
 router.register(r'taxonomic-levels', TaxonomicLevelViewSet) #localhost:8080//api/taxonomit-levels
 router.register(r'organism-conservation', OrganismConservationViewSet) #localhost:8080//api/
 router.register(r'departamentos', DepartamentoViewSet) #localhost:8080//api/
+router.register(r'municipios', MunicipioViewSet) #localhost:8080//api/
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'taxonomic_level.apps.TaxonomicLevelConfig',
     'organism_conservation.apps.OrganismConservationConfig',
     'country.apps.CountryConfig',
-    'departamento.apps.DepartamentoConfig'
+    'departamento.apps.DepartamentoConfig',
+    'municipio.apps.MunicipioConfig'
 
 ]
 
