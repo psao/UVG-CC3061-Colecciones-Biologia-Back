@@ -28,6 +28,7 @@ from municipio.views import MunicipioViewSet
 from life_stage.views import LifeStageViewSet
 from registration_base.views import RegistrationBaseViewSet
 from organism.views import OrganismViewSet
+from authorize_organism.views import AuthorizeOrganismViewSet
 
 router = DefaultRouter()
 
@@ -41,6 +42,7 @@ router.register(r'municipios', MunicipioViewSet) #localhost:8080//api/|
 router.register(r'life-stage', LifeStageViewSet) #localhost:8080//api/|
 router.register(r'registration-bases', RegistrationBaseViewSet) #localhost:8080//api/|
 router.register(r'organisms', OrganismViewSet) #localhost:8080//api/|
+router.register(r'authorize-organisms', AuthorizeOrganismViewSet) #localhost:8080//api/|
 
 urlpatterns = [
     path('admin/', admin.site.urls),

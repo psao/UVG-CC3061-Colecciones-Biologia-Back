@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'municipio.apps.MunicipioConfig',
     'life_stage.apps.LifeStageConfig',
     'registration_base.apps.RegistrationBaseConfig',
-    'organism.apps.OrganismConfig'
+    'organism.apps.OrganismConfig',
+    'authorize_organism.apps.AuthorizeOrganismConfig'
 
 ]
 
