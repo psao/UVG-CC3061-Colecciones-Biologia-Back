@@ -22,10 +22,12 @@ from user_type.views import UserTypeViewSet
 from users.views import UserViewSet
 from taxonomic_level.views import TaxonomicLevelViewSet
 from organism_conservation.views import OrganismConservationViewSet
+from country.views import CountryViewSet
 from departamento.views import DepartamentoViewSet
 from municipio.views import MunicipioViewSet
 from life_stage.views import LifeStageViewSet
 from registration_base.views import RegistrationBaseViewSet
+from organism.views import OrganismViewSet
 
 router = DefaultRouter()
 
@@ -33,10 +35,12 @@ router.register(r'user-types', UserTypeViewSet) #localhost:8080//api/user-types
 router.register(r'users', UserViewSet) #localhost:8080//api/users
 router.register(r'taxonomic-levels', TaxonomicLevelViewSet) #localhost:8080//api/taxonomit-levels
 router.register(r'organism-conservation', OrganismConservationViewSet) #localhost:8080//api/
+router.register(r'countries', CountryViewSet) #localhost:8080//api/
 router.register(r'departamentos', DepartamentoViewSet) #localhost:8080//api/
 router.register(r'municipios', MunicipioViewSet) #localhost:8080//api/|
 router.register(r'life-stage', LifeStageViewSet) #localhost:8080//api/|
 router.register(r'registration-bases', RegistrationBaseViewSet) #localhost:8080//api/|
+router.register(r'organisms', OrganismViewSet) #localhost:8080//api/|
 
 urlpatterns = [
     path('admin/', admin.site.urls),
