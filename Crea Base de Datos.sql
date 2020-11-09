@@ -1,50 +1,73 @@
-DROP TABLE IF EXISTS taxonomia_organismo;
+DROP TABLE autorizacion_prestamo;
 
-DROP TABLE IF EXISTS prestamos;
+DROP TABLE prestamos;
 
-DROP TABLE IF EXISTS municipio;
+DROP TABLE taxonomia_organismo;
 
-DROP TABLE IF EXISTS organismo;
+DROP TABLE autorizacion_organismo;
 
-DROP TABLE IF EXISTS resdes_sociales;
+DROP TABLE municipio;
 
-DROP TABLE IF EXISTS usuario;
+DROP TABLE seccion;
 
-DROP TABLE IF EXISTS departamento;
+DROP TABLE organismo;
 
-DROP TABLE IF EXISTS seccion;
+DROP TABLE resdes_sociales;
 
-DROP TABLE IF EXISTS ubicacion;
+DROP TABLE departamento;
 
-DROP TABLE IF EXISTS bases_registro;
+DROP TABLE ubicacion;
 
-DROP TABLE IF EXISTS etapas_vida;
+DROP TABLE autorizadores;
 
-DROP TABLE IF EXISTS conservacion_organismo;
+DROP TABLE correlativos;
 
-DROP TABLE IF EXISTS configuracion;
+DROP TABLE conservacion_organismo;
 
-DROP TABLE IF EXISTS bodega;
+DROP TABLE bases_registro;
 
-DROP TABLE IF EXISTS pais;
+DROP TABLE bodega;
 
-DROP TABLE IF EXISTS permisos_usuario;
+DROP TABLE configuracion;
 
-DROP TABLE IF EXISTS personas;
+DROP TABLE personas;
 
-DROP TABLE IF EXISTS tipo_rrss;
+DROP TABLE permisos_usuario;
 
-DROP TABLE IF EXISTS niveles_taxonomicos;
+DROP TABLE usuario;
 
-DROP TABLE IF EXISTS niveles_usuarios;
+DROP TABLE tipo_rrss;
 
+DROP TABLE niveles_taxonomicos;
 
+DROP TABLE etapas_vida;
 
+DROP TABLE pais;
+
+DROP TABLE niveles_usuarios;
 
 CREATE TABLE niveles_usuarios (
   codigo_nivel SERIAL  NOT NULL ,
   descripcion VARCHAR(50)      ,
 PRIMARY KEY(codigo_nivel));
+
+
+
+
+CREATE TABLE pais (
+  codigo_pais SERIAL  NOT NULL ,
+  descripcion VARCHAR(50)    ,
+  activo BIT      ,
+PRIMARY KEY(codigo_pais));
+
+
+
+
+CREATE TABLE etapas_vida (
+  codigo_etapa SERIAL  NOT NULL ,
+  descripcion VARCHAR(50)    ,
+  activo BIT      ,
+PRIMARY KEY(codigo_etapa));
 
 
 
@@ -59,30 +82,37 @@ PRIMARY KEY(codigo_nivel));
 
 
 
-CREATE TABLE etapas_vida (
-  codigo_etapa SERIAL  NOT NULL ,
-  descripcion VARCHAR(50)    ,
-  activo BIT      ,
-PRIMARY KEY(codigo_etapa));
-
-
-
-
-CREATE TABLE pais (
-  codigo_pais SERIAL  NOT NULL ,
-  descripcion VARCHAR(50)    ,
-  activo BIT      ,
-PRIMARY KEY(codigo_pais));
-
-
-
-
 CREATE TABLE tipo_rrss (
   codigo_red SERIAL  NOT NULL ,
   descripcion VARCHAR(50)    ,
   icono TEXT    ,
   activo BIT      ,
 PRIMARY KEY(codigo_red));
+
+
+
+
+CREATE TABLE usuario (
+  codigo_usuario INT   NOT NULL ,
+  nombre VARCHAR(50)    ,
+  apellido VARCHAR(75)    ,
+  usuario VARCHAR(50)    ,
+  contrasenia VARCHAR(50)    ,
+  correo VARCHAR(75)    ,
+  activo BIT    ,
+  permiso VARCHAR(50)    ,
+  foto TEXT    ,
+  perfil TEXT      ,
+PRIMARY KEY(codigo_usuario));
+
+
+
+
+CREATE TABLE permisos_usuario (
+  codigo_nivel INT   NOT NULL ,
+  nombre_opcion VARCHAR(75)   NOT NULL ,
+  permiso INTEGER      ,
+PRIMARY KEY(codigo_nivel, nombre_opcion));
 
 
 
@@ -101,15 +131,6 @@ PRIMARY KEY(codigo_interno));
 
 
 
-CREATE TABLE permisos_usuario (
-  codigo_nivel INT   NOT NULL ,
-  nombre_opcion SERIAL  NOT NULL ,
-  permiso INTEGER      ,
-PRIMARY KEY(codigo_nivel, nombre_opcion));
-
-
-
-
 CREATE TABLE configuracion (
   codigo_configuracion SERIAL  NOT NULL ,
   logo TEXT    ,
@@ -122,10 +143,11 @@ PRIMARY KEY(codigo_configuracion));
 
 
 CREATE TABLE bodega (
-  codigo_bodega SERIAL  NOT NULL ,
+  codigo_interno SERIAL  NOT NULL ,
+  codigo_bodega VARCHAR(10)    ,
   descripcion VARCHAR(50)    ,
   activo BIT      ,
-PRIMARY KEY(codigo_bodega));
+PRIMARY KEY(codigo_interno));
 
 
 
@@ -148,42 +170,13 @@ PRIMARY KEY(codigo_conservacion));
 
 
 
-CREATE TABLE usuario (
-  codigo_usuario INT   NOT NULL ,
-  nombre VARCHAR(50)    ,
-  apellido VARCHAR(75)    ,
-  usuario SERIAL   ,
-  contrasenia VARCHAR(50)    ,
-  correo VARCHAR(75)    ,
-  permiso INT   NOT NULL ,
-  activo BIT    ,
-  actividad TEXT    ,
-  foto TEXT      ,
-PRIMARY KEY(codigo_usuario)  ,
-  FOREIGN KEY(permiso)
-    REFERENCES niveles_usuarios(codigo_nivel));
+CREATE TABLE correlativos (
+  codigo_opcion VARCHAR(45)   NOT NULL ,
+  nombre_opcion VARCHAR(50)    ,
+  prefijo CHAR(3)      ,
+PRIMARY KEY(codigo_opcion));
 
 
-CREATE INDEX usuario_FKIndex1 ON usuario (permiso);
-
-
-CREATE INDEX IFK_rus_nusuarios ON usuario (permiso);
-
-
-CREATE TABLE ubicacion (
-  codigo_ubicacion SERIAL  NOT NULL ,
-  codigo_bodega INT   NOT NULL ,
-  descripcion VARCHAR(50)    ,
-  activo BIT      ,
-PRIMARY KEY(codigo_ubicacion)  ,
-  FOREIGN KEY(codigo_bodega)
-    REFERENCES bodega(codigo_bodega));
-
-
-CREATE INDEX ubicacion_FKcodigo_bodega ON ubicacion (codigo_bodega);
-
-
-CREATE INDEX IFK_rbod_bicacion ON ubicacion (codigo_bodega);
 
 
 CREATE TABLE autorizadores (
@@ -191,7 +184,8 @@ CREATE TABLE autorizadores (
   codigo_usuario INT   NOT NULL ,
   prestamos BIT    ,
   organismos BIT    ,
-  frecha_ingresado TIMESTAMP      ,
+  frecha_asignado TIMESTAMP  DEFAULT CURRENT_TIMESTAMP  ,
+  activo BIT      ,
 PRIMARY KEY(codigo_autorizador)  ,
   FOREIGN KEY(codigo_usuario)
     REFERENCES usuario(codigo_usuario));
@@ -201,6 +195,20 @@ CREATE INDEX autorizadores_FKcodigo_usuario ON autorizadores (codigo_usuario);
 
 
 CREATE INDEX IFK_rus_autorizador ON autorizadores (codigo_usuario);
+
+
+CREATE TABLE ubicacion (
+  codigo_interno SERIAL  NOT NULL ,
+  interno_bodega INT   NOT NULL ,
+  codigo_ubicacion VARCHAR(10)    ,
+  descripcion VARCHAR(50)    ,
+  activo BIT      ,
+PRIMARY KEY(codigo_interno),
+  FOREIGN KEY(interno_bodega)
+    REFERENCES bodega(codigo_interno));
+
+
+CREATE INDEX IFK_rbod_bicacion ON ubicacion (interno_bodega);
 
 
 CREATE TABLE departamento (
@@ -217,22 +225,6 @@ CREATE INDEX departamento_FKcodigo_pais ON departamento (codigo_pais);
 
 
 CREATE INDEX IFK_rpai_departamento ON departamento (codigo_pais);
-
-
-CREATE TABLE municipio (
-  codigo_municipio SERIAL  NOT NULL ,
-  codigo_departamento INT   NOT NULL ,
-  decripcion VARCHAR(50)    ,
-  activo BIT      ,
-PRIMARY KEY(codigo_municipio)  ,
-  FOREIGN KEY(codigo_departamento)
-    REFERENCES departamento(codigo_departamento));
-
-
-CREATE INDEX municipio_FKcodigo_departamento ON municipio (codigo_departamento);
-
-
-CREATE INDEX IFK_rdep_municipio ON municipio (codigo_departamento);
 
 
 CREATE TABLE resdes_sociales (
@@ -310,25 +302,40 @@ CREATE INDEX IFK_rorg_bregistro ON organismo (base_registro);
 
 
 CREATE TABLE seccion (
-  codigo_seccion SERIAL  NOT NULL ,
-  codigo_ubicacion INT   NOT NULL ,
+  codigo_interno SERIAL  NOT NULL ,
+  interno_ubicacion INT   NOT NULL ,
+  codigo_seccion VARCHAR(10)    ,
   descripcion VARCHAR(50)    ,
   activo BIT      ,
-PRIMARY KEY(codigo_seccion)  ,
-  FOREIGN KEY(codigo_ubicacion)
-    REFERENCES ubicacion(codigo_ubicacion));
+PRIMARY KEY(codigo_interno),
+  FOREIGN KEY(interno_ubicacion)
+    REFERENCES ubicacion(codigo_interno));
 
 
-CREATE INDEX seccion_FKcodigo_ubicacion ON seccion (codigo_ubicacion);
+CREATE INDEX IFK_rub_seccion ON seccion (interno_ubicacion);
 
 
-CREATE INDEX IFK_rub_seccion ON seccion (codigo_ubicacion);
+CREATE TABLE municipio (
+  codigo_municipio SERIAL  NOT NULL ,
+  codigo_departamento INT   NOT NULL ,
+  decripcion VARCHAR(50)    ,
+  activo BIT      ,
+PRIMARY KEY(codigo_municipio)  ,
+  FOREIGN KEY(codigo_departamento)
+    REFERENCES departamento(codigo_departamento));
+
+
+CREATE INDEX municipio_FKcodigo_departamento ON municipio (codigo_departamento);
+
+
+CREATE INDEX IFK_rdep_municipio ON municipio (codigo_departamento);
 
 
 CREATE TABLE autorizacion_organismo (
   codigo_autorizacion SERIAL  NOT NULL ,
   codigo_autorizador INT   NOT NULL ,
-  codigo_organismo INT   NOT NULL   ,
+  codigo_organismo INT   NOT NULL ,
+  fecha_autorizado TIMESTAMP  DEFAULT CURRENT_TIMESTAMP    ,
 PRIMARY KEY(codigo_autorizacion)    ,
   FOREIGN KEY(codigo_organismo)
     REFERENCES organismo(interno_organismo),
@@ -345,20 +352,21 @@ CREATE INDEX IFK_rau_auorganismo ON autorizacion_organismo (codigo_autorizador);
 
 
 CREATE TABLE taxonomia_organismo (
-  codigo_nivel INT   NOT NULL ,
-  interno_organismo INT   NOT NULL     ,
+  nivel_taxonomico INT   NOT NULL ,
+  interno_organismo INT   NOT NULL ,
+  descripcion VARCHAR(75)        ,
   FOREIGN KEY(interno_organismo)
     REFERENCES organismo(interno_organismo),
-  FOREIGN KEY(codigo_nivel)
+  FOREIGN KEY(nivel_taxonomico)
     REFERENCES niveles_taxonomicos(codigo_nivel));
 
 
 CREATE INDEX taxonomia_organismo_FKinterno_organismo ON taxonomia_organismo (interno_organismo);
-CREATE INDEX taxonomia_organismo_FKcodigo_nivel ON taxonomia_organismo (codigo_nivel);
+CREATE INDEX taxonomia_organismo_FKcodigo_nivel ON taxonomia_organismo (nivel_taxonomico);
 
 
 CREATE INDEX IFK_rorg_torganismo ON taxonomia_organismo (interno_organismo);
-CREATE INDEX IFK_rniv_torganismo ON taxonomia_organismo (codigo_nivel);
+CREATE INDEX IFK_rniv_torganismo ON taxonomia_organismo (nivel_taxonomico);
 
 
 CREATE TABLE prestamos (
@@ -387,7 +395,8 @@ CREATE INDEX IFK_rorg_prestamos ON prestamos (interno_organismo);
 CREATE TABLE autorizacion_prestamo (
   codigo_autorizacion INT   NOT NULL ,
   codigo_autorizador INT   NOT NULL ,
-  codigo_prestamo INT   NOT NULL   ,
+  codigo_prestamo INT   NOT NULL ,
+  fecha_autorizado TIMESTAMP  DEFAULT CURRENT_TIMESTAMP    ,
 PRIMARY KEY(codigo_autorizacion)    ,
   FOREIGN KEY(codigo_prestamo)
     REFERENCES prestamos(codigo_prestamo),
@@ -401,6 +410,9 @@ CREATE INDEX autorizacion_prestamo_FKcodigo_autorizador ON autorizacion_prestamo
 
 CREATE INDEX IFK_rpr_auprestamos ON autorizacion_prestamo (codigo_prestamo);
 CREATE INDEX IFK_rau_auprestamo ON autorizacion_prestamo (codigo_autorizador);
+
+
+
 
 
 
