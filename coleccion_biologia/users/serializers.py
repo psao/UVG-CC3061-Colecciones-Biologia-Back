@@ -13,7 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
             'password',
             'first_name',
             'last_name',
-            'user_type',
             'is_staff',
         )
         extra_kwargs = {'password': {'write_only': True}}
@@ -21,16 +20,16 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validate_data):
         '''Create and return new user'''
 
-        try:
-            user_type = validate_data['user_type']
-        except KeyError:
-            user_type=None
+        # try:
+        #     user_type = validate_data['user_type']
+        # except KeyError:
+        #     user_type=None
         
         user = models.Users(
             email=validate_data['email'],
             first_name=validate_data['first_name'],
-            last_name=validate_data['last_name'],
-            user_type=validate_data['user_type']
+            last_name=validate_data['last_name']
+            # user_type=validate_data['user_type']
         )
 
         user.set_password(validate_data['password'])
