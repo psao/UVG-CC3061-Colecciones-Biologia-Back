@@ -10,5 +10,6 @@ class AuthorizeOrganismSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'authorizing_user',
-            'organism'
+            'organism',
+            "authorization_date"
         )
