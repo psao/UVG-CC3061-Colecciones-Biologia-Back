@@ -110,3 +110,8 @@ media/
 **/migrations/**
 !**/migrations
 !**/migrations/__init__.py
+.idea/vcs.xml
+.idea/UVG-CC3061-Colecciones-Biologia-Back.iml
+.idea/modules.xml
+.idea/misc.xml
+.idea/inspectionProfiles/profiles_settings.xml
