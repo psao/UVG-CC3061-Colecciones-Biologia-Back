@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'life_stage.apps.LifeStageConfig',
     'registration_base.apps.RegistrationBaseConfig',
     'organism.apps.OrganismConfig',
-    'authorize_organism.apps.AuthorizeOrganismConfig'
+    'authorize_organism.apps.AuthorizeOrganismConfig',
+    'organism_taxonomy.apps.OrganismTaxonomyConfig'
 
 ]
 

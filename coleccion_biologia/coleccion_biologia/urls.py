@@ -33,6 +33,7 @@ from life_stage.views import LifeStageViewSet
 from registration_base.views import RegistrationBaseViewSet
 from organism.views import OrganismViewSet
 from authorize_organism.views import AuthorizeOrganismViewSet
+from organism_taxonomy.views import OrganismTaxonomyViewSet
 
 router = DefaultRouter()
 
@@ -47,6 +48,7 @@ router.register(r'life-stage', LifeStageViewSet) #localhost:8080//api/|
 router.register(r'registration-bases', RegistrationBaseViewSet) #localhost:8080//api/|
 router.register(r'organisms', OrganismViewSet) #localhost:8080//api/|
 router.register(r'authorize-organisms', AuthorizeOrganismViewSet) #localhost:8080//api/|
+router.register(r'organism-taxonomy', OrganismTaxonomyViewSet) #localhost:8080//api/|
 
 urlpatterns = [
     path('admin/', admin.site.urls),
