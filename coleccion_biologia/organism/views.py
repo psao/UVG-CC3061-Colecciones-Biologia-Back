@@ -22,6 +22,7 @@ class OrganismViewSet(viewsets.ModelViewSet):
                 'base': {
                     'create': True,
                     'list': True,
+                    'search_suggestions_results': True,
                     'search_results': True
                 },
                 'instance': {
@@ -35,6 +36,25 @@ class OrganismViewSet(viewsets.ModelViewSet):
     ]
 
     @action(detail=False, methods=['post'])
+    def search_suggestions_results(self, request):
+        '''Search based on predictive text'''
+
+        search = json.loads(request.body)['search']
+
+        searchResults = []
+
+        results = models.Organism.objects.filter(Q(common_name__icontains = search) | Q(scientific_name__icontains = search))[:5]
+
+        for result in results:
+            #Serialize evrey result
+            organism_serializer = serializers.OrganismSerializer(result).data
+            organism = { "common_name": organism_serializer['common_name'], "scientific_name": organism_serializer['scientific_name'] }
+            # organism = organism_serializer['common_name']
+            searchResults.append(organism)
+
+        return Response(searchResults)
+    
+    @action(detail=False, methods=['post'])
     def search_results(self, request):
         '''Search based on predictive text'''
 
@@ -47,8 +67,7 @@ class OrganismViewSet(viewsets.ModelViewSet):
         for result in results:
             #Serialize evrey result
             organism_serializer = serializers.OrganismSerializer(result).data
-            organism = { "common_name": organism_serializer['common_name'], "scientific_name": organism_serializer['scientific_name'] }
             # organism = organism_serializer['common_name']
-            searchResults.append(organism)
+            searchResults.append(organism_serializer)
 
         return Response(searchResults)
