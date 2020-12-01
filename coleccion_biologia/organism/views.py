@@ -9,6 +9,14 @@ from django.contrib.postgres.search import SearchVector
 from . import models
 from . import serializers
 from permissions.services import APIPermissionClassFactory
+from country.models import Country
+from country.serializers import CountrySerializer
+from departamento.models import Departamento
+from departamento.serializers import DepartamentoSerializer
+from municipio.models import Municipio
+from municipio.serializers import MunicipioSerializer
+from organism_conservation.models import OrganismConservation
+from organism_conservation.serializers import OrganismConservationSerializer
 
 class OrganismViewSet(viewsets.ModelViewSet):
     '''Handles creating, reading and updating Organisms'''
@@ -66,7 +74,25 @@ class OrganismViewSet(viewsets.ModelViewSet):
 
         for result in results:
             #Serialize evrey result
+            
             organism_serializer = serializers.OrganismSerializer(result).data
+
+            country = Country.objects.get(pk=organism_serializer['country'])
+            country_serializer = CountrySerializer(country).data
+            organism_serializer['country'] = country_serializer
+
+            departamento = Departamento.objects.get(pk=organism_serializer['departamento'])
+            departamento_serializer = DepartamentoSerializer(departamento).data
+            organism_serializer['departamento'] = departamento_serializer
+
+            municipio = Municipio.objects.get(pk=organism_serializer['municipio'])
+            municipio_serializer = MunicipioSerializer(municipio).data
+            organism_serializer['municipio'] = municipio_serializer
+
+            organism_conservation = OrganismConservation.objects.get(pk=organism_serializer['organism_conservation'])
+            organism_conservation_serializer = OrganismConservationSerializer(organism_conservation).data
+            organism_serializer['organism_conservation'] = organism_conservation_serializer
+
             # organism = organism_serializer['common_name']
             searchResults.append(organism_serializer)
 
