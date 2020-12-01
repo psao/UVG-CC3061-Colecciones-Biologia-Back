@@ -10,6 +10,10 @@ class OrganismSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'scientific_name',
+            'kingdom',
+            'phile',
+            'clase',
+            'family',
             'common_name',
             'colector',
             'country',

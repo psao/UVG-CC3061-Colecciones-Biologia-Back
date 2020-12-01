@@ -13,6 +13,10 @@ class Organism(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     scientific_name = models.CharField(max_length=75)
+    kingdom = models.CharField(max_length=75, null = True)
+    phile = models.CharField(max_length=75, null = True)
+    clase = models.CharField(max_length=75, null = True)
+    family = models.CharField(max_length=75, null = True)
     common_name = models.CharField(max_length=75)
     colector = models.CharField(max_length=50)
     country = models.ForeignKey(Country, on_delete=models.PROTECT, null = False)
